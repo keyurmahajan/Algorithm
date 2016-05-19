@@ -33,10 +33,17 @@ public class RamerDouglasPeuckerAlgorithm {
 	public List<Point> reducePoints(List<Point> points,
 			double epsilon) {
 
+		Objects.requireNonNull(points, "Points parameter is Null");
+		if (epsilon == 0) {
+			return points;
+		}
+
 		// Find the point with the maximum distance
 		double farLocDist = 0;
 		int farLocindex = 0;
 		int size = points.size();
+
+		// creating line which contains two points
 		List<Point> line = Arrays.asList(points.get(0), points.get(size - 1));
 		for (int j = 0; j < size - 1; j++) {
 			double dis = getPoint2LineDistance(line, points.get(j));
@@ -53,10 +60,13 @@ public class RamerDouglasPeuckerAlgorithm {
 					points.subList(0, farLocindex + 1), epsilon);
 			List<Point> list2 = reducePoints(
 					points.subList(farLocindex, points.size()), epsilon);
+
 			// Build the result list
 			List<Point> resultList = new ArrayList<Point>(list1);
 			resultList.addAll(list2.subList(1, list2.size()));
+
 			return resultList;
+
 		} else {
 			return line;
 		}
@@ -87,55 +97,5 @@ public class RamerDouglasPeuckerAlgorithm {
 				/ length;
 		return distance;
 	}
-
-	private class Point {
-		private int x;
-		private int y;
-
-		public Point(int x, int y) {
-			this.setX(x);
-			this.setY(y);
-
-		}
-
-		/**
-		 * Get Y Coordinate
-		 *
-		 * @return X
-		 */
-		public int getX() {
-			return x;
-		}
-
-		/**
-		 * Set X-Coordinate
-		 *
-		 * @param x
-		 *            the x to set
-		 */
-		public void setX(int x) {
-			this.x = x;
-		}
-
-		/**
-		 * Get Y Coordinate
-		 *
-		 * @return the y
-		 */
-		public int getY() {
-			return y;
-		}
-
-		/**
-		 * Set Y Coordinate
-		 *
-		 * @param y
-		 *            the y to set
-		 */
-		public void setY(int y) {
-			this.y = y;
-		}
-	}
-
 
 }
